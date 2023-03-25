@@ -16,5 +16,17 @@ const getDataFromLink = async () => {
     };
   }
 };
+const addDataToDataBase = async (pokemons) => {
+  console.log(pokemons);
+for (let pokemon of pokemons) {
+  if (pokemon.entry_number == 150) break;
+  await pokemonModel.create({
+    name: pokemon.pokemon_species.name,
+    ID: pokemon.entry_number,
+    link: pokemon.pokemon_species.url,
+  });
+ }
+}
 
-module.exports = { getDataFromLink };
+
+module.exports = { getDataFromLink ,addDataToDataBase};

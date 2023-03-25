@@ -1,5 +1,6 @@
 const mongoose = require("mongoose")
-mongoose.connect("mongodb+srv://seif:WHRAk2qefZs59HEm@pokemon.wp1pt3e.mongodb.net/test")
+require('dotenv').config()
+mongoose.connect(process.env.DATABASE_URL)
 mongoose.connection.on('connected', () => {
     console.log("Connected to database")
 })

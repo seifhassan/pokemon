@@ -1,5 +1,5 @@
 const pokemonModel = require("../../dataBase/models/Pokemon");
-const { getDataFromLink } = require("../services/pokemonService");
+const { getDataFromLink,addDataToDataBase } = require("../services/pokemonService");
 
 class pokemon {
   static addPokemonsFromPokemonsServicetoDB = async (req, res) => {
@@ -7,14 +7,7 @@ class pokemon {
     if (response.status === "SUCCESS") {
       const pokemons= response.data;
       try {
-        for (let pokemon of pokemons) {
-          if (pokemon.entry_number == 150) break;
-          await pokemonModel.create({
-            name: pokemon.pokemon_species.name,
-            ID: pokemon.entry_number,
-            link: pokemon.pokemon_species.url,
-          });
-        }
+        await addDataToDataBase(pokemons);
         res.status(200).send("successfuly operation");
       } catch (e) {
         res.status(500).send({
@@ -27,7 +20,7 @@ class pokemon {
     }
   };
   static getAllPokemon = async (req, res) => {
-    const pokemons = await pokemonModel.find();
+    const pokemons = await pokemonModel.find({},{"_id":0,"__v":0});
     res.status(200).send(pokemons);
   };
 }
